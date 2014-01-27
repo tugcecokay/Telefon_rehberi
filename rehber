@@ -1,0 +1,301 @@
+#include<stdio.h>
+#include<string.h>
+#include<ctype.h>
+#include<stdlib.h>
+#include<conio.h>
+#include<Windows.h>
+struct rehber{
+	char isim[20];
+	char soyisim[20];
+	char evtel[11];
+	char istel[11];
+	char ceptel[11];
+	char eposta[20];
+	char dtarih[10];
+}rehberim,kayitsil[30]; 
+
+
+int menu();
+void yenikayit();
+//void guncelle();
+void sil();
+//void dosyaolustur();
+void listele();
+void arabul();
+/*void cikis();*/
+
+int main()
+{
+	FILE *Rehberim;
+	char secim;
+	if(( Rehberim=fopen("projemrehber.txt","a"))==NULL)
+		printf("Surucu bulunamadi!\n");
+	else
+	{
+
+		do{
+			secim=menu();
+			switch(secim)
+			{
+			case'1':yenikayit(); break;
+			case'2':listele(); break;
+			case'3':arabul(); break;
+			/*case'4':guncelle(); break;*/
+			case'5':sil(); break;
+				/*case'6':cikis(); break;*/
+			default:
+				puts("Gecersiz secim! Lutfen 1-6 arasinda bir rakam giriniz");
+				break;
+			}
+		}while(secim<='6' && secim>='1');
+	} return 0;
+}
+
+
+
+int menu()
+{
+	int secim;
+	printf("\n\n\n\t\t** Tugce Cokay'in rehberine hosgeldiniz...**");
+	printf("\n\t\t1=>Yeni bir kisi ekle");
+	printf("\n\t\t2=>Kayitlari listele");
+	printf("\n\t\t3=>Kayit ara");
+	printf("\n\t\t4=>Kayit guncelle");
+	printf("\n\t\t5=>Kisi sil");
+	printf("\n\t\t6=>Rehberden cikis\n\n");
+	printf("\t\tSeciminizi giriniz:");
+	scanf("%s",&secim);
+	return secim;
+}
+
+void yenikayit()
+{
+	FILE *Rehberim;
+	int secim1;
+	system("cls");
+	if(( Rehberim=fopen("projemrehber.txt","a"))==NULL)
+		printf("Surucu bulunamadi!\n");
+	else
+	{					
+		printf("Kisi adi giriniz:");
+		scanf("%s",rehberim.isim);
+		fprintf(Rehberim, "\n%s   ",rehberim.isim);
+		printf("\nKisi soyadi giriniz:");
+		scanf("%s",rehberim.soyisim);
+		fprintf(Rehberim, "\t%s   ",rehberim.soyisim);
+		printf("\nKisi ev telefon numarasini giriniz:");
+		scanf("%s",rehberim.evtel);
+		fprintf(Rehberim, "\t%s   ",rehberim.evtel);
+		printf("\nKisi is telefon numarasini giriniz:");
+		scanf("%s",rehberim.istel);
+		fprintf(Rehberim, "\t%s   ",rehberim.istel);
+		printf("\nKisi cep telefon numarasini giriniz:");
+		scanf("%s",rehberim.ceptel);
+		fprintf(Rehberim, "\t%s   ",rehberim.ceptel);
+		printf("\nKisi e-posta adresini giriniz:");
+		scanf("%s",rehberim.eposta);
+		fprintf(Rehberim, "\t%s   ",rehberim.eposta);
+		printf("\nKisi dogum tarihini giriniz:");
+		scanf("%s",rehberim.dtarih);
+		fprintf(Rehberim, "%s   ",rehberim.dtarih);
+		printf("\nKisi eklemeye devam etmek istiyor musunuz? (E)/(H)");
+		secim1=_getch();
+		if (secim1=='e' || secim1=='E')
+		{
+			yenikayit();
+		}
+		else if (secim1=='h' || secim1=='H')
+		{
+			menu();
+		}
+		else
+		{
+			printf("yanlis secim");
+			Sleep(2000);
+			exit(1);
+		}
+
+		fclose(Rehberim);
+	}
+}
+
+void listele() 
+{
+	system("cls");
+	FILE *Rehberim;
+	if((Rehberim=fopen("projemrehber.txt","r"))==NULL)
+		printf("\n\nisim\t\t\tsoyisim\t\t\ttel\n");
+	else
+	{       system("cls");
+	while(!feof(Rehberim))
+	{
+		printf("******************************************************************\n");
+		printf("\t\t\tTelefon Rehberi \n");
+		printf("******************************************************************\n\n");
+		fscanf(Rehberim,"%s%s%s%s%s%s%s",&rehberim.isim,&rehberim.soyisim,&rehberim.evtel,&rehberim.istel,&rehberim.ceptel,&rehberim.eposta,&rehberim.dtarih);
+		printf("Adi:%s\t\n",rehberim.isim);
+		printf("Soyadi:%s\n",rehberim.soyisim);
+		printf("Ev telefonu:%s\n",rehberim.evtel);
+		printf("Is telefonu:%s\n",rehberim.istel);
+		printf("Cep telefonu:%s\n",rehberim.ceptel);
+		printf("E-posta adresi:%s\n",rehberim.eposta);
+		printf("Dogum tarihi:%s\n\n",rehberim.dtarih);
+
+	}
+	}
+
+	fclose(Rehberim);
+	_getch();
+}
+
+void arabul() {
+	FILE *Rehberim;
+	char arananisim[30],aranansoyisim[30];
+	int Secim;
+	char Secim2;
+	int denetci=0;
+	Rehberim = fopen("projemrehber.txt", "r");
+	if (Rehberim == NULL)
+	{
+		printf("Dosya veya sunucu bulunamadi!\n");
+	}
+	else
+	{
+		system("cls");
+		printf("\t**1-Isim ile arama**\n");
+		printf("\t**2-Soyisim ile arama**\n");
+		scanf("%d", &Secim);
+		switch (Secim)
+		{
+		case 1:{// Ad ile sorgulama
+			printf("Aranan kisinin adini giriniz:");
+			_flushall();
+			gets(arananisim); // scanf ile almıyor burda gtts ile alıyor 
+			printf("\n");
+			rewind(Rehberim);
+			while (fscanf(Rehberim, "%s", &rehberim.isim) != EOF) //Dosyada bulunan adları EOF a kadar okur
+			{
+				fscanf(Rehberim, "%s", &rehberim.soyisim);
+				fscanf(Rehberim, "%s", &rehberim.evtel);
+				fscanf(Rehberim, "%s", &rehberim.istel);
+				fscanf(Rehberim, "%s", &rehberim.ceptel);
+				fscanf(Rehberim, "%s", &rehberim.eposta);
+				fscanf(Rehberim, "%s", &rehberim.dtarih);
+				/*system("cls");*/
+				if (!strcmp(rehberim.isim, arananisim))//Aranan isimle Karşılaştırma yapılır doğruysa ekrana yazıdırılır 
+				{   
+					printf("Ad:\t%s\nSoyad:  %s\nEvtel: %s\nIsTel:  %s\nCepTel:  %s\neposta: %s\ndtarih:%s\n\n", rehberim.isim, rehberim.soyisim, rehberim.ceptel, rehberim.evtel, rehberim.istel, rehberim.eposta, rehberim.dtarih);
+					denetci=1;
+				}	
+				
+			}
+			if(denetci=0) //bulunmazsa bu kısım devreye girer
+				{   	
+					printf("Aradiginiz ada sahip kisi bulunamadi!\n\n"); 
+					break;
+					fclose(Rehberim);
+				}
+			break;
+			getch();
+			   }
+		case 2:{// SoyAd ile sorgulama
+			printf("********************************\n");
+			printf("Aranan kisinin soyadini giriniz:");
+			_flushall();
+			gets(aranansoyisim); // scanf ile almıyor burda gets ile alıyor
+			rewind(Rehberim);
+			while (fscanf(Rehberim, "%s", &rehberim.soyisim) != EOF)
+			{				
+				fscanf(Rehberim, "%s", &rehberim.isim);
+				fscanf(Rehberim, "%s", &rehberim.evtel);
+				fscanf(Rehberim, "%s", &rehberim.istel);
+				fscanf(Rehberim, "%s", &rehberim.ceptel);
+				fscanf(Rehberim, "%s", &rehberim.eposta);
+				fscanf(Rehberim, "%s", &rehberim.dtarih);
+				if(!strcmp(rehberim.isim, aranansoyisim)){ 
+
+					printf("SoyAd:\t%s\nAd:  %s\nEvTel: %s\nIsTel:  %s\nCepTel:  %s\ne-posta: %s\nDogum tarih:%s\n\n", rehberim.isim, rehberim.soyisim, rehberim.evtel, rehberim.istel, rehberim.ceptel, rehberim.eposta, rehberim.dtarih);
+					denetci=1;
+				}
+				if(denetci=0){
+					printf("Aradiginiz soyada sahip kisi bulunamadi!\n\n");
+					break;
+					fclose(Rehberim);
+				}
+			}
+			break;
+			   }
+		}
+	}
+	while (1)//İşleme devam edip etmeyeceği sorgulandmıştır.
+	{
+		printf("\n");
+		printf("Arama  islemine devam icin (A) \n");
+		printf("Menuye donmek icin         (M) \n");
+		printf("Cikis  yapmak icin         (C) \n\n");
+		printf("Tercihiniz: ");
+		scanf("%c", &Secim2); system("cls");
+		if (Secim2 == 'a' || Secim2 == 'A')
+		{
+			arabul(); break;
+		}
+		else if (Secim2 == 'm' || Secim2 == 'M')
+		{
+			main(); break;
+		}
+		else if (Secim2 == 'c' || Secim2 == 'C')
+		{
+			exit(1); break;
+		}
+		else
+			printf("\n");
+		printf("Yanlis secim yaptiniz!Lutfen belirtilen tuslari kullaniniz\n");
+	}
+	_getch();
+}
+
+		void sil(){
+			FILE *Rehberim, *Rehberim1;
+			char isimsil[30], Secim2;
+			Rehberim = fopen("rehberim.txt", "r");
+			Rehberim1=fopen("rehberim1.txt", "w");
+			
+			printf("\t\t**************************\n");
+			printf("\t\tKayit silme bölümündesiniz");
+			printf("\t\t**************************\n\n");
+			printf("Kayit listesinden silmek istediginiz ismi giriniz:");
+			_flushall();
+			gets(isimsil);
+			char temp=' ';
+			printf("%s kisisini silmek istediginize emin misiniz? (E) (H)\n", isimsil);
+			Secim2 = _getch();
+			if (Secim2=='e' || Secim2=='E')
+				system("cls");
+			while (fscanf(Rehberim, "%s %s %s %s %s %s %s ", rehberim.isim, rehberim.soyisim, rehberim.evtel, rehberim.istel, rehberim.ceptel, rehberim.eposta, rehberim.dtarih) != EOF)
+		{
+					if(strcmp(rehberim.isim,isimsil)==0)
+			{
+			
+				strcpy(rehberim.isim," ");
+				strcpy(rehberim.soyisim," ");
+				strcpy(rehberim.ceptel," ");
+				strcpy(rehberim.evtel," ");
+				strcpy(rehberim.istel," ");
+				strcpy(rehberim.dtarih," ");
+				strcpy(rehberim.eposta," ");
+
+				fprintf(Rehberim1, "%s  %s  %s  %s  %s  %s  %s  \n", rehberim.isim, rehberim.soyisim, rehberim.evtel, rehberim.istel, rehberim.ceptel, rehberim.eposta, rehberim.dtarih);
+			}
+			else
+			{
+				fprintf(Rehberim1, "%s %s %s %s %s %s %s\n", rehberim.isim, rehberim.soyisim, rehberim.evtel, rehberim.istel, rehberim.ceptel, rehberim.eposta, rehberim.dtarih);
+				
+			}
+		
+		/*printf("Bu kisi rehberde kayitli degil!\n");*/
+			rename("rehberim.txt","bozuk.txt");
+			rename("rehberim1.txt", "rehberim.txt");
+			fclose(Rehberim);
+			fclose(Rehberim1);
+		}
+
